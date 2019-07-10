@@ -13,5 +13,19 @@
   "dependencies": {
     "express": "^4.15.3",
     "nodemon": "^1.11.0"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arBalasquide/media_server.git"
+  },
+  "keywords": [
+    "media",
+    "server"
+  ],
+  "author": "",
+  "bugs": {
+    "url": "https://github.com/arBalasquide/media_server/issues"
+  },
+  "homepage": "https://github.com/arBalasquide/media_server#readme"
 }

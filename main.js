@@ -1,34 +1,26 @@
-var http = require('http');
+var express = require('express');
 var fs = require('fs');
-var upload = require('upload');
-var download = require('download');
-var stream = require('stream');
 
-function send404Response(response){
-  response.writeHead(404, {"Content-Type": "text/plain"});
-  response.write("Error 404: Page not found!");
-  response.end();
-}
+const app = express();
+const port = 8080;
 
-function onRequest(request, response){
-  console.log(request.method + " request for " + request.url);
-  if(request.method == 'GET' && request.url == '/'){
-    response.writeHead(200, {"Content-Type": "text/plain"});
-    fs.createReadStream("./index.html").pipe(response);
-  }
-  else if(request.method == 'GET' && request.url == '/media'){
-    // show page
-    // webscrape imbd for media info / picture inb4 'plex already does it'
-    // check if they click to download/stream/upload
-    //
-    // if(request == stream)stream(media);
-    // else if(request == download)download(media);
-    //etc
-  }
-  else{
-    send404Response(response);
-  }
-}
+app.get('/', (req, res) => {
+  console.log("request for /");
+  res.send("You're at /");
+  // fs.createReadStream("./index.html").pipe(res);
+})
 
-http.createServer(onRequest).listen(8080);
-console.log("Server started sucesfully.");
+app.get('/media', (req, res) => {
+  // TODO: do something (call some function or other file)
+  console.log("request for /media");
+  res.send("You're at /media");
+})
+
+// Runs only if all previously written functions fail
+app.use((req, res, next) => {
+  res.send("Error 404: Page not found!");
+})
+
+app.listen(port, () => {
+  console.log(`Server started sucesfully. Listening on port ${port}`);
+})
