@@ -1,0 +1,17 @@
+_logIf => _log
+find all `util.inspect` and if it's an error, pass to `_logIf` directly
+leading tabs to spaces
+accept third param as error, not connection (replace `': ' + err`)
+eslint:
+  should warn on `x === null`
+move leftPad, DOES_NOT_REQUIRE_AUTH, REQUIRES_CONFIGURED_DATA
+
+add `conn` listeners in FtpConnection constructor
+
+re-implement pr/53 (Enhance MDTM feature) and add/fix tests
+  https://github.com/sstur/nodeftpd/pull/53
+
+pasv refactor:
+  make `pasv` (tcp server) a class with method that will stop listening (close) and destroy any existing connections.
+  add test for: https://github.com/sstur/nodeftpd/pull/34
+  abstract out the port-finding logic in `_setupNewPASV`

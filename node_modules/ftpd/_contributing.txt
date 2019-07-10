@@ -1,0 +1,12 @@
+Style Guide:
+  prefer camelCase and prefer verbose names (options vs opts)
+  place var at first assignment (except if/else blocks)
+  when calling functions, break at most one block arg (array/object literal or func)
+    if more than one block arg must be broken, then split args onto lines
+    if splitting args onto lines, each arg must be on it's own line
+  prefer function expressions over function declarations, unless placing at end of scope and taking advantage of hoisting.
+  prefer array loop functions (map, filter, etc) over `for` loops unless in a hot code path
+  prefer Object.keys() over `for .. in`
+
+  prefer not to re-assign arguments
+  prefer not to mutate objects
