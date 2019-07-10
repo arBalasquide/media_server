@@ -1,5 +1,6 @@
 var express = require('express');
 var fs = require('fs');
+var stream = require('./stream');
 
 const app = express();
 const port = 8080;
@@ -13,13 +14,14 @@ function getMedia(){
         mediaList.push(items[i]);
     }
     console.log("Gathered list of available media.");
+    mediaList.sort();
   });
-  mediaList.sort();
 }
 
+// for now, / will route to stream (just for testing)
 app.get('/', (req, res) => {
   console.log("request for /");
-  res.send("You're at /");
+  stream.start('./media/test/test.mkv', req, res);
   // fs.createReadStream("./index.html").pipe(res);
 })
 
