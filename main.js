@@ -21,7 +21,7 @@ function getMedia(){
 // for now, / will route to stream (just for testing)
 app.get('/', (req, res) => {
   console.log("request for /");
-  stream.start('./media/test/test.mkv', req, res);
+  stream.start('./media/test/test.mp4', req, res);
   // fs.createReadStream("./index.html").pipe(res);
 })
 
