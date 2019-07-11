@@ -1,8 +1,8 @@
 var fs = require('fs');
 var express = require('express');
 
-exports.start = function(path, req, res){
-  const stats = fs.statSync(path) // stores all the stats of the file
+exports.start = function(path, mediaType, req, res){
+  const stats = fs.statSync(path); // stores all the stats of the file
   const fileSize = stats.size;
   const range = req.headers.range; // HTTP allows to send a range of data
 
@@ -18,14 +18,14 @@ exports.start = function(path, req, res){
       'Content-Range': `bytes ${start}-${end}/${fileSize}`,
       'Accept-Ranges': 'bytes',
       'Content-Length': chunksize,
-      'Content-type' : 'video/mp4'
+      'Content-type' : `video/${mediaType}`
     }
     res.writeHead(206, head);
     file.pipe(res);
   } else {
     const head = {
       'Content-Length': fileSize,
-      'Content-Type': 'video/mp4',
+      'Content-Type': `video/${mediaType}`
     }
     res.writeHead(200, head)
     fs.createReadStream(path).pipe(res)

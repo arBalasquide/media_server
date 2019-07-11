@@ -10,19 +10,25 @@ var mediaList = [];
 function getMedia(){
   fs.readdir('./media', function(err, items) {
     for (var i=0; i<items.length; i++) {
-        console.log("Adding " + items[i] + " to the list of media.")
-        mediaList.push(items[i]);
+        console.log(`Adding '${items[i]}' to the list of available media.`)
+        mediaList.push({
+          key:    items[i],
+          value:  fs.statSync('./media/'+items[i])
+        });
     }
     console.log("Gathered list of available media.");
     mediaList.sort();
   });
 }
 
-// for now, / will route to stream (just for testing)
 app.get('/', (req, res) => {
   console.log("request for /");
-  stream.start('./media/test/test.mp4', req, res);
-  // fs.createReadStream("./index.html").pipe(res);
+  res.send("Main Page been Built");
+})
+
+app.get('/*.mp4$', (req, res) => {
+  console.log(`User requesting media: ${req.url}`);
+  stream.start(`.${req.url}`, "mp4", req, res);
 })
 
 // Runs only if all previously written functions fail
