@@ -1,0 +1,20 @@
+doctype html
+html
+  head
+    title Media Server
+    link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css")
+  body
+    h1 Available Media
+    div()
+      ul(class="list-unstyled")
+        each title in media
+          li(class="fa-li") #{title}
+          - var n = 1;
+          ul
+            each file in submedia.get(title)
+              a(href=file): li() Episode #{n++}
+              
+              
+              
+          
+    
