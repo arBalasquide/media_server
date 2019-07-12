@@ -2,20 +2,27 @@
   "name": "media_server",
   "version": "1.0.0",
   "description": "Basic media server, which can stream a selection of videos",
-  "main": "main.js",
+  "main": "src/main.js",
   "engines": {
     "node": ">=6.2.0"
   },
   "scripts": {
-    "start": "nodemon main.js"
+    "start": "nodemon --exec babel-node src/main.js",
+    "build": "babel src --out-dir dist",
+    "serve": "node dist/main.js"
   },
   "license": "MIT",
   "dependencies": {
-    "express": "^4.15.3",
-    "nodemon": "^1.11.0",
+    "express": "^4.15.3"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.5.0",
+    "@babel/core": "^7.5.4",
+    "@babel/node": "^7.5.0",
+    "@babel/preset-env": "^7.5.4",
+    "nodemon": "^1.19.1",
     "pug": "^2.0.0"
   },
-  "devDependencies": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/arBalasquide/media_server.git"
