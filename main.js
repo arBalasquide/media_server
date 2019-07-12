@@ -10,14 +10,20 @@ const port = 8080;
 mediapath = './media';
 extensions = ['.mp4', '.m4v'];
 
-// Will find all media with supported extensions in ./media
-const filename = gathermedia.mediafilepath(mediapath, extensions);
-
 app.set('view engine', 'pug');
- 
+
+var availablemedia = gathermedia.gettitles(mediapath);
+
 app.get('/', (req, res, next) => {
   console.log("request for /");
-  res.render('index', {path: filename});
+
+  var media = new Map();
+  availablemedia.forEach(title => {
+    const files = gathermedia.mediafilepath(mediapath, extensions, title);
+    media.set(title, files);
+  });
+  
+  res.render('index', {media: availablemedia, submedia: media});
 })
 
 // URL use %20 as space so replace it here with " " so media can be found locally
@@ -26,11 +32,6 @@ app.get('/*.mp4$', (req, res) => {
   stream.start(`.${req.url.replace(/%20/g, " ")}`, req, res);
 })
 app.get('/*.m4v$', (req, res) => {
-  console.log(`User requesting media: ${req.url}`);
-  stream.start(`.${req.url.replace(/%20/g, " ")}`, req, res);
-})
-
-app.get('/*.mkv$', (req, res) => {
   console.log(`User requesting media: ${req.url}`);
   stream.start(`.${req.url.replace(/%20/g, " ")}`, req, res);
 })
