@@ -1,13 +1,13 @@
 var fs = require('fs');
 var path = require('path');
 
-exports.mediafilepath = function (dir, fileTypes) {
+exports.mediafilepath = function (dir, fileTypes, title) {
   var filesToReturn = [];
   function walkDir(currentPath) {
     var files = fs.readdirSync(currentPath);
     for (var i in files) {
       var curFile = path.join(currentPath, files[i]);
-      if (fs.statSync(curFile).isFile() && fileTypes.indexOf(path.extname(curFile)) != -1) {
+      if (fs.statSync(curFile).isFile() && fileTypes.indexOf(path.extname(curFile)) != -1 && curFile.includes(title)) {
         filesToReturn.push(curFile.replace(dir, ''));
       } else if (fs.statSync(curFile).isDirectory()) {
        walkDir(curFile);
@@ -25,8 +25,8 @@ exports.gettitles = function (dir){
        console.log(`Adding '${items[i]}' to the list of available media.`)
        names.push(items[i]);
    }
-   console.log("Gathered list of available media.");
+   //console.log("Gathered list of available media.");
    names.sort();
  });
  return names;
-}
+};
