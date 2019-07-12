@@ -19,14 +19,10 @@ exports.mediafilepath = function (dir, fileTypes, title) {
 };
 
 exports.gettitles = function (dir){
-  var names = [];
-  fs.readdir(dir, function(err, items) {
-   for (var i=0; i<items.length; i++) {
-       console.log(`Adding '${items[i]}' to the list of available media.`)
-       names.push(items[i]);
-   }
-   //console.log("Gathered list of available media.");
-   names.sort();
- });
- return names;
+  try{
+    var names = fs.readdirSync(dir);
+  }catch(err){
+    console.log("Failed to load media folder.");
+  }
+  return names;
 };
