@@ -1,6 +1,6 @@
 # media_server
 
-Simple media for hosting and watching your nedia files remotely with ease.
+Simple media for hosting and watching your media files remotely with ease.
 
 Enables ES6 and creates a new workflow for building/running the server.
 New workflow:
