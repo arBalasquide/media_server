@@ -7,11 +7,11 @@ html
     h1 Available Media
     div()
       ul(class="list-unstyled")
-        each title in media
+        each title in titles
           li(class="fa-li") #{title}
           - var n = 1;
           ul
-            each file in submedia.get(title)
+            each file in files.get(title)
               a(href=file): li() Episode #{n++}
               
               

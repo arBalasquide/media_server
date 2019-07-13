@@ -2,26 +2,22 @@ import express from 'express'
 import fs from 'fs'
 import path from 'path'
 import stream from './stream'
-import gathermedia from './gathermedia'
+import gather from './gathermedia'
 import {PATHS, SUPPORTED_EXTENSIONS} from './constants'
 
 const app = express();
-const port = 8080;
+const port = 8081;
 
 app.set('view engine', 'pug');
 
 app.get('/', (req, res, next) => {
   console.log("request for /");
 
-  // Refactor to implement in gathermedia.js
-  let availablemedia = gathermedia.gettitles(PATHS.MEDIA_PATH);
-  let media = new Map();
-  availablemedia.forEach(title => {
-    let files = gathermedia.mediafilepath(PATHS.MEDIA_PATH, SUPPORTED_EXTENSIONS.VIDEO, title);
-    media.set(title, files);
-  });
+  // Update available content 
+  let media_titles = gather.titles(PATHS.MEDIA_PATH);
+  let media_files = gather.files(media_titles);
 
-  res.render('index', {media: availablemedia, submedia: media});
+  res.render('index', {titles: media_titles, files: media_files});
 })
 
 // URL use %20 as space so replace it here with " " so media can be found locally
