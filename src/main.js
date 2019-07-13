@@ -1,15 +1,12 @@
-const express = require('express');
-const fs = require('fs');
-const path = require('path');
-const stream = require('./stream');
-const gathermedia = require('./gathermedia');
+import express from 'express'
+import fs from 'fs'
+import path from 'path'
+import stream from './stream'
+import gathermedia from './gathermedia'
+import {PATHS, SUPPORTED_EXTENSIONS} from './constants'
 
 const app = express();
 const port = 8080;
-
-mediapath = './media';
-viewspath = './views';
-extensions = ['.mp4', '.m4v'];
 
 app.set('view engine', 'pug');
 
@@ -17,10 +14,10 @@ app.get('/', (req, res, next) => {
   console.log("request for /");
 
   // Refactor to implement in gathermedia.js
-  var availablemedia = gathermedia.gettitles(mediapath);
-  var media = new Map();
+  let availablemedia = gathermedia.gettitles(PATHS.MEDIA_PATH);
+  let media = new Map();
   availablemedia.forEach(title => {
-    const files = gathermedia.mediafilepath(mediapath, extensions, title);
+    let files = gathermedia.mediafilepath(PATHS.MEDIA_PATH, SUPPORTED_EXTENSIONS.VIDEO, title);
     media.set(title, files);
   });
 
