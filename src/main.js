@@ -21,7 +21,7 @@ app.get('/', (req, res, next) => {
 })
 
 // Routing for all supported video extensions
-SUPPORTED_EXTENSIONS.VIDEO.forEach(function(path){
+SUPPORTED_EXTENSIONS.VIDEO.forEach(path => {
   app.get(`/*${path}$`, (req, res) =>{
     console.log(`User requesting media: ${req.url}`);
     stream.start(req, res);
