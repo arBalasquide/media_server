@@ -1,7 +1,8 @@
 var fs = require('fs');
 
-exports.start = function(path, req, res){
+exports.start = function(req, res){
 
+  const path = '.'+req.url.replace(/%20/g, ' '); // %20 = " "
   const stats = fs.statSync(path); // stores all the stats of the file
   const fileSize = stats.size;
   const range = req.headers.range; // HTTP allows to send a range of data
@@ -30,4 +31,4 @@ exports.start = function(path, req, res){
     res.writeHead(200, head)
     fs.createReadStream(path).pipe(res)
   }
-}; 
+};

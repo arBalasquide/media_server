@@ -24,7 +24,7 @@ app.get('/', (req, res, next) => {
 SUPPORTED_EXTENSIONS.VIDEO.forEach(function(path){
   app.get(`/*${path}$`, (req, res) =>{
     console.log(`User requesting media: ${req.url}`);
-    stream.start(`.${req.url.replace(/%20/g, " ")}`, req, res);
+    stream.start(req, res);
   })
 })
 
