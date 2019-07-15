@@ -21,19 +21,26 @@ function mediafilepath(dir, fileTypes, title) {
 };
 
 exports.titles = function (dir){
-  try{
-    var titles = fs.readdirSync(dir);
-  }catch(err){
-    console.log("Failed to load media folder.");
+  try {
+    fs.mkdirSync(dir, { recursive: true })
+  } catch (err) {
+    if (err.code !== 'EEXIST') throw err
+    console.log("Media folder does not exist! Creating it for you.");
   }
+  var titles = fs.readdirSync(dir);
   return titles;
 };
 
 exports.files = function (availablemedia){
   let media = new Map();
-  availablemedia.forEach(title => {
-    let files = mediafilepath(PATHS.MEDIA_PATH, SUPPORTED_EXTENSIONS.VIDEO, title);
-    media.set(title, files);
-  });
-  return media;
+  if(availablemedia === undefined || availablemedia.length == 0){
+    console.log("No media found...");
+  }
+  else{
+    availablemedia.forEach(title => {
+      let files = mediafilepath(PATHS.MEDIA_PATH, SUPPORTED_EXTENSIONS.VIDEO, title);
+      media.set(title, files);
+    });
+    return media;
+  }
 };
