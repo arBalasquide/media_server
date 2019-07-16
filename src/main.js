@@ -2,7 +2,7 @@ import express from 'express'
 import fs from 'fs'
 import path from 'path'
 import stream from './stream'
-import gatherMedia from './gathermedia'
+import gatherMedia from './gatherMedia'
 import {PATHS, SUPPORTED_EXTENSIONS} from './constants'
 
 const app = express();
