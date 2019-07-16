@@ -1,14 +1,14 @@
-var fs = require('fs');
-var path = require('path');
+import fs from 'fs'
+import path from 'path'
 import {PATHS, SUPPORTED_EXTENSIONS} from './constants'
 
 
-function mediafilepath(dir, fileTypes, title) {
+const mediafilepath = (dir, fileTypes, title) => {
   var filesToReturn = [];
-  function walkDir(currentPath) {
-    var files = fs.readdirSync(currentPath);
+  const walkDir = currentPath => {
+    let files = fs.readdirSync(currentPath);
     for (var i in files) {
-      var curFile = path.join(currentPath, files[i]);
+      let curFile = path.join(currentPath, files[i]);
       if (fs.statSync(curFile).isFile() && fileTypes.indexOf(path.extname(curFile)) != -1 && curFile.includes(title)) {
         filesToReturn.push(curFile.replace(dir, ''));
       } else if (fs.statSync(curFile).isDirectory()) {
@@ -20,7 +20,7 @@ function mediafilepath(dir, fileTypes, title) {
   return filesToReturn;
 };
 
-exports.titles = function (dir){
+const titles = dir => {
   try {
     fs.mkdirSync(dir, { recursive: true })
   } catch (err) {
@@ -31,7 +31,7 @@ exports.titles = function (dir){
   return titles;
 };
 
-exports.files = function (availablemedia){
+const files = availablemedia => {
   let media = new Map();
   if(availablemedia === undefined || availablemedia.length == 0){
     console.log("No media found...");

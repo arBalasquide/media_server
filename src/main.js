@@ -2,7 +2,7 @@ import express from 'express'
 import fs from 'fs'
 import path from 'path'
 import stream from './stream'
-import gather from './gathermedia'
+import gatherMedia from './gathermedia'
 import {PATHS, SUPPORTED_EXTENSIONS} from './constants'
 
 const app = express();
@@ -14,8 +14,8 @@ app.get('/', (req, res, next) => {
   console.log("request for /");
 
   // Update available content
-  let media_titles = gather.titles(PATHS.MEDIA_PATH);
-  let media_files = gather.files(media_titles);
+  let media_titles = gatherMedia.titles(PATHS.MEDIA_PATH);
+  let media_files = gatherMedia.files(media_titles);
 
   res.render('index', {titles: media_titles, files: media_files});
 })
