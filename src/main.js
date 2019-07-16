@@ -14,10 +14,12 @@ app.get('/', (req, res, next) => {
   console.log("request for /");
 
   // Update available content
-  let media_titles = gatherMedia.titles(PATHS.MEDIA_PATH);
-  let media_files = gatherMedia.files(media_titles);
+  const {
+    mediaTitles: titles,
+    mediaFiles: files
+  } = gatherMedia();
 
-  res.render('index', {titles: media_titles, files: media_files});
+  res.render('index', {titles, files});
 })
 
 // Routing for all supported video extensions

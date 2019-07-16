@@ -44,3 +44,12 @@ const files = availablemedia => {
     return media;
   }
 };
+
+export default () => {
+  const mediaTitles = titles(PATHS.MEDIA_PATH);
+  const mediaFiles = files(mediaTitles);
+  return {
+    mediaTitles,
+    mediaFiles
+  };
+}
