@@ -5,14 +5,14 @@ html
     link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css")
   body
     h1 Available Media
-    div()
+    div
       ul(class="list-unstyled")
         each title in titles
           li(class="fa-li") #{title}
           - var n = 1;
           ul
             each file in files.get(title)
-              a(href=file): li() Episode #{n++}
+              a(href=file): li Episode #{n++}
               
               
               
