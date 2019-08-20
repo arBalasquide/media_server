@@ -2,19 +2,26 @@ doctype html
 html
   head
     title Media Server
-    link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css")
+    link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css")
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js')
+    script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js')
   body
-    h1 Available Media
-    div
-      ul(class="list-unstyled")
-        each title in titles
-          li(class="fa-li") #{title}
-          - var n = 1;
-          ul
-            each file in files.get(title)
-              a(href=file): li Episode #{n++}
-              
-              
+    div(class="containter")
+      h1 Available Media
+      div(id="titles")
+      - var number_id = 0; // to use in div ID to be able to toggle collapse
+        ul(class="list-unstyled")
+          each title in titles
+            - number_id = number_id+1; 
+            - var episode = 1;
+            div(id="titles" style="padding-left: 1%")
+              li(class="fa-li panel-title")
+                a(data-toggle="collapse" href='#'+number_id) #{title}
+                div(id=number_id class="collapse")
+                  ul(class="list-unstyled")
+                    each file in files.get(title)
+                      a(href=file): li(style="padding-left: 2.5%") - Episode #{episode++}
+                
               
           
     
