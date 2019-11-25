@@ -3,9 +3,23 @@ import stream from './stream'
 import gatherMedia from './gatherMedia'
 import {SUPPORTED_EXTENSIONS} from './constants'
 import logger from './console-logger.js'
+import expressDefend from 'express-defend'
+import blacklist from 'express-blacklist'
 
 const app = express();
 const port = 8080;
+
+app.use(blacklist.blockRequests('blacklist.txt'));
+app.use(expressDefend.protect({
+  maxAttempts: 1,                // number of attempts until their connection is dropped, if dropSuspiciousRequest is ON 
+  dropSuspiciousRequest: true,   // returns 403 for the IP after maxAttempts
+  consoleLogging: true,
+  logFile: 'suspicious.log',
+  onMaxAttemptsReached: function(ip, url){
+    console.log(`${ip} is suspicious. Reached maximum threshold with URL @ ${url.replace('::ffff:', '')}`);
+    blacklist.addAddress(ip); // Log the suspicious IP into express-blacklist and prevent connections
+  }
+}))
 
 app.set('view engine', 'pug');
 
