@@ -9,15 +9,19 @@ import blacklist from 'express-blacklist'
 const app = express();
 const port = 8080;
 
+// Good for detecting obvious attempts, need another way to filter region IP's like CHINA and Russia
+// Where plenty of bots that attempt to find vulnerabilities, come from
 app.use(blacklist.blockRequests('blacklist.txt'));
+
 app.use(expressDefend.protect({
   maxAttempts: 1,                // number of attempts until their connection is dropped, if dropSuspiciousRequest is ON 
   dropSuspiciousRequest: true,   // returns 403 for the IP after maxAttempts
   consoleLogging: true,
   logFile: 'suspicious.log',
+
   onMaxAttemptsReached: function(ip, url){
     console.log(`${ip} is suspicious. Reached maximum threshold with URL @ ${url.replace('::ffff:', '')}`);
-    blacklist.addAddress(ip); // Log the suspicious IP into express-blacklist and prevent connections
+    blacklist.addAddress(ip);    // Log the suspicious IP into express-blacklist and prevent connections
   }
 }))
 
