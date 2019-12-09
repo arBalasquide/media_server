@@ -1,34 +1,24 @@
-var fs = require('fs');
+import ffmpeg from 'fluent-ffmpeg'
+import fs from 'fs'
 
-exports.start = function(req, res){
+exports.start = function(req, stream){
+  
+  const path = '.' + req.url.replace(/%20/g, ' ') // Path to media, compatible with linux filesystem standard
+  const mediaPath = path.split('media/')[1]
+  const mediaTitle = mediaPath.split('/')[1]
 
-  const path = '.'+req.url.replace(/%20/g, ' '); // %20 = " "
-  const stats = fs.statSync(path); // stores all the stats of the file
-  const fileSize = stats.size;
-  const range = req.headers.range; // HTTP allows to send a range of data
+  const file = fs.createReadStream(path)
 
-  if(range) {
-    const parts = range.replace(/bytes=/, "").split("-")
-    const start = parseInt(parts[0], 10)
-    const end = parts[1]
-      ? parseInt(parts[1], 10)
-      : fileSize-1
-    const chunksize = (end-start)+1
-    const file = fs.createReadStream(path, {start, end})
-    const head = {
-      'Content-Range': `bytes ${start}-${end}/${fileSize}`,
-      'Accept-Ranges': 'bytes',
-      'Content-Length': chunksize,
-      'Content-type' : `video/mp4`,
-    }
-    res.writeHead(206, head);
-    file.pipe(res);
-  } else {
-    const head = {
-      'Content-Length': fileSize,
-      'Content-Type': `video/mp4`,
-    }
-    res.writeHead(200, head)
-    fs.createReadStream(path).pipe(res)
-  }
-};
+  var proc = ffmpeg(file)
+  .videoBitrate(1024)
+  .videoCodec('libx264')
+  .on('end', function() {
+    console.log('file has been converted succesfully');
+  })
+  .on('error', function(err, stdout, stderr) {
+    console.log('an error happened: ' + err.message);
+    console.log(stdout)
+    console.log(stderr)
+  })
+  .save(`media/${mediaPath}.mp4`);
+}
