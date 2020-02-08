@@ -1,6 +1,4 @@
-// Date returns hour/min/seconds as they are i.e 1s is returned as 1
-// So this is to add 0 to make it i.e 01, for aesthetics
-
+// Appends a 0 before a digit if its not a double digit number, for the sake of aesthetics
 let prepend_zero = function(str){
   if(str < 10)return '0'+str
   else return str
@@ -22,7 +20,6 @@ let get_time = function(){
 }
 
 // Adds timestamp and logs the file into the log.txt file
-
 exports.log = function(msg){
   let current_time = get_time()
   
