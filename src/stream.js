@@ -1,8 +1,13 @@
 var fs = require('fs');
 
 exports.start = function(req, res){
+  
+  // Special characters change into URL hexadecimal asciic versions
+  // Thus change them back to filesystem compatible versions
+  var path = '.'+req.url.replace(/%20/g, ' ') // %20 = " "
+      path = path.replace(/%5B/g, '[')        // %5B = [
+      path = path.replace(/%5D/g, ']')        // %5D = ]
 
-  const path = '.'+req.url.replace(/%20/g, ' '); // %20 = " "
   const stats = fs.statSync(path); // stores all the stats of the file
   const fileSize = stats.size;
   const range = req.headers.range; // HTTP allows to send a range of data
@@ -32,3 +37,4 @@ exports.start = function(req, res){
     fs.createReadStream(path).pipe(res)
   }
 };
+
